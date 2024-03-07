@@ -1,0 +1,19 @@
+{
+  "persons": [
+    {
+      "id": 5,
+      "name": "Samuel Zewde",
+      "number": "0944263239"
+    },
+    {
+      "id": 6,
+      "name": "Police",
+      "number": "911"
+    },
+    {
+      "id": 3,
+      "name": "Someone",
+      "number": "4321"
+    }
+  ]
+}

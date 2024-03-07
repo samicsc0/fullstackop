@@ -1,32 +1,45 @@
 import { useState } from "react";
 import Numbers from "./components/Numbers";
+import { useEffect } from "react";
+import axios from "axios";
+import notes from "./services/notesServices";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456", id: 1 },
-    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
-    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-  ]);
+  const baseUrl = 'http://localhost:3001/persons'
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
+  useEffect(() => {
+    notes.getAll().then(result => {
+      setPersons(result.data)
+    })
+  }, [])
   const addContanct = (event) => {
     event.preventDefault();
     const newContact = {};
     newContact.name = newName;
-    newContact.phoneNumber = newNumber;
+    newContact.number = newNumber;
+    newContact.id = persons.length + 1
     const checkIfExists = persons.filter(
       (person) => JSON.stringify(person.name) === JSON.stringify(newName)
     );
     if (checkIfExists.length === 0) {
-      setPersons(persons.concat(newContact));
-      setNewName("");
-      setNewNumber("");
+      notes.create(newContact).then(result => {
+        if (result.status === 201) {
+          setPersons(persons.concat(newContact));
+          setNewName("");
+          setNewNumber("");
+        }
+      })
+
     } else {
       alert(`${newName} is already added to phonebook.`);
     }
   };
+  const deleteHandler = (id)=>{
+    notes.deleteContact(id)
+  }
 
   return (
     <div>
@@ -51,7 +64,7 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <Numbers persons={persons} search={search}/>
+      <Numbers persons={persons} search={search} deleteContactHandler={deleteHandler}/>
     </div>
   );
 };
