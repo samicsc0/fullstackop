@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = 'http://localhost:3000/persons'
 const getAll = ()=>{
     const data = axios.get(baseUrl)
     return data
@@ -16,7 +16,7 @@ const update = (id, newContact)=>{
     return result
 }
 const deleteContact = (id)=>{
-    const result = axios.delete(`${baseUrl}/?id=${id}`)
+    const result = axios.delete(`${baseUrl}/${id}`)
     return result
 }
 
