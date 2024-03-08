@@ -17,6 +17,9 @@ function App() {
       console.log("")
     })
   }
+  const OnClickButtonListener = (countryName)=>{
+    setCountryName(countryName)
+  }
   useEffect(() => {
     const fetchData = async () => {
       const data = await axios.get(url).then((result) => {
@@ -75,7 +78,7 @@ function App() {
 {          listOfCountries.map((country) => (
           <li key={country.cca3}>
             {country.name.common}
-            <button>show detail</button>
+            <button onClick={()=>OnClickButtonListener(country.name.common.toLowerCase())}>show detail</button>
           </li>
           ))}
         </>
