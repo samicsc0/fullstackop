@@ -2,10 +2,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [countryName, setCountryName] = useState("ethiopia");
+  const [countryName, setCountryName] = useState("");
   const [listOfCountries, setListOfCountries] = useState([]);
+  const [temprature, setTemprature] = useState(0)
+  const [windspeed, SetWindspeed] = useState(0)
   const url = "https://studies.cs.helsinki.fi/restcountries/api/all";
   const getWeather = (long, latit)=>{
+    const url = `http://www.7timer.info/bin/api.pl?lon=${long}&lat=${latit}&product=astro&output=json`
+    axios.get(url).then(result=>{
+      setTemprature(result.data.dataseries[0].temp2m)
+      SetWindspeed(result.data.dataseries[0].wind10m.speed)
+    }
+    ).catch(error => {
+      console.log("")
+    })
   }
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +31,7 @@ function App() {
       setListOfCountries(data);
     };
     fetchData();
-    console.log(listOfCountries);
+    getWeather(38.750080,9.033140)
   }, [countryName]);
 
   return (
@@ -55,6 +65,9 @@ function App() {
           </div>
           <div>
             <h2>Weather of {listOfCountries[0].capital}</h2>
+            {getWeather(listOfCountries[0].capitalInfo.latlng[1],listOfCountries[0].capitalInfo.latlng[0])}
+            <p>Temprature {temprature} Celcius</p>
+            <p>Wind {windspeed} m/s</p>
           </div>
         </div>
       ) : (
