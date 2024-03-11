@@ -9,6 +9,9 @@
   "author": "samicsc0",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.3"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.0"
   }
 }
