@@ -1,7 +1,15 @@
 // const http = require("http");
 const express = require("express");
 const app = express();
+const morgan = require('morgan')
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.use(express.json())
+morgan.token('body',req=>{
+  return JSON.stringify(req.body)
+})
+app.use(morgan(':body'))
+
+
 const data = [
   {
     id: 1,
@@ -78,28 +86,3 @@ app.post("/addperson",(request, response)=>{
     response.status(201).json({'success': 'contact added successfully'})
   }
 })
-// http
-//   .createServer((request, response) => {
-//     if (request.url === "/api/persons") {
-//       response.writeHead(200, { "Content-Type": "application/json" });
-//       response.end(JSON.stringify(data));
-//     } else if (request.url === "/info") {
-//       response.writeHead(200, { "Content-Type": "text/HTML" });
-//       response.end(
-//         `<p>Phone book has info for ${
-//           data.length
-//         } people</p> <br /> <p>${new Date()}</p>`
-//       );
-//     } else if (request.url.startsWith("/api/person")) {
-//       const id = request.url.split("/");
-//       const extractedId = Number(id[id.length - 1]);
-//       if (extractedId <= 0 || data.length < extractedId || isNaN(extractedId)) {
-//         response.writeHead(404, { "Content-Type": "text/HTML" });
-//         response.end("<p>Not Found</p>");
-//       } else {
-//         response.writeHead(200, { "Content-Type": "application/JSON" });
-//         response.end(JSON.stringify(data[extractedId - 1]));
-//       }
-//     }
-//   })
-//   .listen(3000);
