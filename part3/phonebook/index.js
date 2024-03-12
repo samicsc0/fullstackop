@@ -1,13 +1,17 @@
-// const http = require("http");
 const express = require("express");
+const cors = require('cors')
 const app = express();
-// const morgan = require('morgan')
-// app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
+app.use(cors({
+  origin:['http://localhost:5173'],
+  methods:['GET','PUT','POST','DELETE','OPTIONS']
+}))
+const morgan = require('morgan')
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 app.use(express.json())
-// morgan.token('body',req=>{
-//   return JSON.stringify(req.body)
-// })
-// app.use(morgan(':body'))
+morgan.token('body',req=>{
+  return JSON.stringify(req.body)
+})
+app.use(morgan(':body'))
 
 
 const data = [
