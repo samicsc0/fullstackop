@@ -6,17 +6,20 @@ const Numbers = ({ persons, search, deleteContactHandler }) => {
         if (person.name.toLowerCase().includes(search)) {
           return (
             <div key={person.id}>
-              <li >
+              <li>
                 {person.name} {person.number}
+                <button onClick={() => deleteContactHandler(person.id)}>
+                  delete
+                </button>
               </li>
-              <button onClick={()=>deleteContactHandler(person.id)}>delete</button>
             </div>
           );
         } else {
-          return null
+          return null;
         }
       })}
-    </>)
+    </>
+  );
 };
 
 export default Numbers;

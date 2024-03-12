@@ -28,7 +28,7 @@ const App = () => {
       return JSON.stringify(person.name) === JSON.stringify(newName);
     });
     if (checkIfExists.length === 0) {
-      notes.create(newContact).then((result) => {
+      notes.create(newContact.id,newContact.name,newContact.number).then((result) => {
         if (result.status === 201) {
           setPersons(persons.concat(newContact));
           setSuccessMessage(`Added ${newContact.name}`);
