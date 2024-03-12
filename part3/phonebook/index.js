@@ -12,6 +12,7 @@ morgan.token('body',req=>{
   return JSON.stringify(req.body)
 })
 app.use(morgan(':body'))
+app.use(express.static('dist'))
 
 
 const data = [
